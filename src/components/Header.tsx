@@ -1,19 +1,25 @@
-import { h } from 'preact'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-export function Header() {
+export default function Header() {
   return (
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container">
-        <a class="navbar-brand" href="#">Alrock Burger</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <div className="container">
+        <Link className="navbar-brand d-flex align-items-center" to="/">
+          <img src="/img/logo.png" alt="Logo" height="30" className="me-2" />
+          Hackton
+        </Link>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span className="navbar-toggler-icon" />
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="#menu">Menú</a></li>
-            <li class="nav-item"><a class="nav-link" href="#promociones">Promociones</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <button className="nav-link btn btn-link" data-bs-toggle="modal" data-bs-target="#loginModal">Inicio de sesión</button>
+            </li>
+            <li className="nav-item">
+              <button className="nav-link btn btn-link" data-bs-toggle="modal" data-bs-target="#registerModal">Crea tu cuenta</button>
+            </li>
           </ul>
         </div>
       </div>
