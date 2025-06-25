@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-
-// Backend interactions removed
+import { registerUser } from '../auth'
 
 interface FormState {
   username: string
@@ -86,22 +85,8 @@ export default function RegisterModal() {
     }
   }, [form.password, form.repeat_password])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Intentando registrar:', {
-      username: form.username,
-      user: form.user,
-      email: form.email,
-      repeat_email: form.repeat_email,
-      password: form.password,
-      repeat_password: form.repeat_password,
-      phone: form.phone,
-      birth_date: form.birth_date,
-      address: form.address,
-      country: form.country,
-      city: form.city,
-      accepted_terms: form.accepted_terms
-    })
     const reqFields = ['username', 'user', 'email', 'repeat_email', 'password', 'repeat_password', 'country', 'city', 'birth_date']
     const newErrors: Record<string, string> = {}
     for (const field of reqFields) {
@@ -116,24 +101,42 @@ export default function RegisterModal() {
     }
     if (Object.keys(newErrors).length > 0) return
 
-    setSuccess(true)
-    setMessage('Registro enviado (sin conexión a base de datos)')
-    setForm({
-      username: '',
-      user: '',
-      role: 'user',
-      email: '',
-      repeat_email: '',
-      password: '',
-      repeat_password: '',
-      phone: '',
-      birth_date: '',
-      address: '',
-      country: '',
-      city: '',
-      accepted_terms: false
-    })
-    setBirthDate(null)
+    try {
+      await registerUser({
+        username: form.username,
+        user: form.user,
+        email: form.email,
+        password: form.password,
+        phone: form.phone,
+        birth_date: form.birth_date,
+        address: form.address,
+        accepted_terms: form.accepted_terms,
+        registration_ip: window.location.hostname,
+        country: form.country,
+        city: form.city
+      })
+      setSuccess(true)
+      setMessage('Registro exitoso')
+      setForm({
+        username: '',
+        user: '',
+        role: 'user',
+        email: '',
+        repeat_email: '',
+        password: '',
+        repeat_password: '',
+        phone: '',
+        birth_date: '',
+        address: '',
+        country: '',
+        city: '',
+        accepted_terms: false
+      })
+      setBirthDate(null)
+    } catch (err) {
+      setSuccess(false)
+      setMessage(err instanceof Error ? err.message : 'Error al registrar')
+    }
   }
 
   return (
