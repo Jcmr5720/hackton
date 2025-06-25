@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import LoginModal from './components/LoginModal'
 import RegisterModal from './components/RegisterModal'
+import ReservationModal from './components/ReservationModal'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -14,7 +15,8 @@ export default function App() {
       <Header />
       <LoginModal />
       <RegisterModal />
-      <main className="flex-fill">
+      <ReservationModal />
+      <main className="flex-grow-1">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />

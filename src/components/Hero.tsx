@@ -14,7 +14,13 @@ export default function Hero() {
     >
       <div className="container">
         <h1 className="display-4 fw-bold mb-4">¡La mejor hamburguesa de la ciudad!</h1>
-        <a href="#" className="btn btn-danger btn-lg">Haz tu pedido</a>
+        <button
+          className="btn btn-reserva btn-lg rounded-pill px-4 fw-bold"
+          data-bs-toggle="modal"
+          data-bs-target="#reservationModal"
+        >
+          Haz tu reserva
+        </button>
       </div>
     </section>
   )
