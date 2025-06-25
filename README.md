@@ -35,3 +35,7 @@ npm run start
 ```
 
 This starts the Express server defined in `server/`.
+
+The frontend styles and scripts (Bootstrap, Bootstrap Icons, Animate.css and
+Hover.css) are loaded from CDN links declared in `index.html`, so these packages
+do not need to be installed locally when running the client.
