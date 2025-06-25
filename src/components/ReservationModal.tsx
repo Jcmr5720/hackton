@@ -70,7 +70,18 @@ export default function ReservationModal() {
       <div className="modal-dialog modal-dialog-centered animate__animated animate__zoomIn">
         <div className="modal-content">
           <div className="modal-header">
-
+            <h5 className="modal-title">
+              <img src="/img/logo.png" alt="logo" style={{ height: '30px' }} />
+              Reserva tu mesa
+            </h5>
+            <button
+              type="button"
+              className="modal-close-btn"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <i className="bi bi-x-lg" />
+            </button>
           </div>
           <div className="modal-body">
             {message && (

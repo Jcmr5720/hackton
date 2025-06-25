@@ -240,3 +240,55 @@ section {
 .text-brand {
   color: #ff5722 !important;
 }
+
+/* Hero customizations */
+.hero-title {
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+.btn-reserva {
+  background: linear-gradient(45deg, #ff0000, #ff9800);
+  background-size: 200% 200%;
+  border: none;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 700;
+  animation: gradientShift 6s ease infinite, glow 2s ease-in-out infinite;
+}
+
+.btn-reserva:hover {
+  background: linear-gradient(45deg, #ff5722, #ffa500);
+  animation: gradientShift 3s ease infinite, glowHover 1.5s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 87, 34, 0.6), 0 0 40px rgba(255, 87, 34, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 140, 0, 0.8), 0 0 60px rgba(255, 87, 34, 0.8);
+  }
+}
+
+@keyframes glowHover {
+  0%,
+  100% {
+    box-shadow: 0 0 30px rgba(255, 140, 0, 0.8), 0 0 60px rgba(255, 87, 34, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 87, 34, 1), 0 0 80px rgba(255, 87, 34, 1);
+  }
+}
