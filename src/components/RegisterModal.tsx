@@ -151,7 +151,14 @@ export default function RegisterModal() {
               <img src="/img/logo.png" alt="logo" style={{ height: '30px' }} />
               Crea tu cuenta
             </h5>
-            <button type="button" className="btn-close rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              className="modal-close-btn"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <i className="bi bi-x-lg" />
+            </button>
           </div>
           <div className="modal-body">
             {message && (

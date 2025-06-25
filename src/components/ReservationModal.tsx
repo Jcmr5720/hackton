@@ -68,11 +68,7 @@ export default function ReservationModal() {
       <div className="modal-dialog modal-dialog-centered animate__animated animate__zoomIn">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">
-              <img src="/img/logo.png" alt="logo" style={{ height: '30px' }} />
-              Haz tu reserva
-            </h5>
-            <button type="button" className="btn-close rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
+
           </div>
           <div className="modal-body">
             {message && (

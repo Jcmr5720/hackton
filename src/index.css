@@ -110,15 +110,31 @@ section {
   gap: 0.5rem;
 }
 
-.premium-modal .btn-close {
-  background: transparent;
-  color: #fff;
-  opacity: 1;
-  font-size: 1.5rem;
+
+.modal-header {
+  position: relative;
 }
 
-.premium-modal .btn-close:hover {
-  color: #ff5722;
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: background 0.2s;
+}
+
+.modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .dark-input-group .form-control {
@@ -158,39 +174,52 @@ section {
   color: #fff;
 }
 
-/* Reserva button styles */
-.btn-reserva {
-  background: linear-gradient(45deg, #ff0000, #ff8800);
-  background-size: 200% 200%;
-  border: none;
+
+.premium-footer {
+  background: linear-gradient(to bottom, #000, #111);
+  border-top: 4px solid #ff5722;
   color: #fff;
-  transition: transform 0.3s ease;
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
-  animation: gradientShift 8s ease infinite, glowPulse 3s ease-in-out infinite;
 }
 
-.btn-reserva:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(255, 87, 34, 0.8);
+.premium-footer .footer-logo {
+  height: 80px;
 }
 
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+.premium-footer a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
-@keyframes glowPulse {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(255, 87, 34, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(255, 87, 34, 0.8);
-  }
+.premium-footer a:hover {
+  color: #ff5722;
+  transform: translateY(-2px);
+}
+
+.premium-footer .social-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.premium-footer .social-icon:hover {
+  background: #ff5722;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.footer-bottom {
+  border-top: 1px solid #333;
+  color: #aaa;
+  font-size: 0.85rem;
+}
+
+.text-brand {
+  color: #ff5722 !important;
 }
