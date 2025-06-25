@@ -4,14 +4,14 @@ export default function Footer() {
   return (
     <footer className="premium-footer mt-auto pt-5 text-white">
       <div className="container">
-        <div className="d-flex justify-content-center align-items-center mb-4">
-          <img
-            src="/img/logo.png"
-            alt="Al Rock Burger Logo"
-            className="footer-logo-large"
-          />
-        </div>
-        <div className="row gy-4 justify-content-center text-center text-md-start">
+        <div className="row gy-4 justify-content-center text-center text-md-start align-items-center">
+          <div className="col-12 col-md-3 d-flex justify-content-center mb-4 mb-md-0">
+            <img
+              src="/img/logo.png"
+              alt="Al Rock Burger Logo"
+              className="footer-logo-large"
+            />
+          </div>
           <div className="col-12 col-md-3">
             <h6 className="fw-bold mb-3">Contacto</h6>
             <ul className="list-unstyled">
