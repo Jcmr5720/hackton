@@ -1,5 +1,12 @@
-import { createHash } from 'crypto'
 import { supabase } from './supabaseClient'
+
+async function sha256(message: string): Promise<string> {
+  const data = new TextEncoder().encode(message)
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('')
+}
 
 export type Logger = {
   id: number
@@ -37,7 +44,7 @@ export interface RegistrationData {
 export interface AuthUser extends Omit<Logger, 'password'> {}
 
 export async function registerUser(data: RegistrationData): Promise<AuthUser> {
-  const passwordHash = createHash('sha256').update(data.password).digest('hex')
+  const passwordHash = await sha256(data.password)
   const { data: inserted, error } = await supabase
     .from('logger')
     .insert({
@@ -62,7 +69,7 @@ export async function registerUser(data: RegistrationData): Promise<AuthUser> {
 }
 
 export async function loginUser(email: string, password: string, ip: string): Promise<AuthUser> {
-  const passwordHash = createHash('sha256').update(password).digest('hex')
+  const passwordHash = await sha256(password)
   const { data: user, error } = await supabase.from('logger').select('*').eq('email', email).single()
   if (error) throw error
   if (!user || user.password !== passwordHash) throw new Error('Invalid credentials')
