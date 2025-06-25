@@ -1,4 +1,4 @@
-import { FunctionalComponent } from 'preact'
+import { type FunctionalComponent } from 'preact'
 
 export const Carousel: FunctionalComponent = () => (
   <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">

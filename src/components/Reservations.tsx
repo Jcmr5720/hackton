@@ -1,4 +1,4 @@
-import { FunctionalComponent } from 'preact'
+import { type FunctionalComponent } from 'preact'
 
 export const Reservations: FunctionalComponent = () => (
   <section id="reservas" class="py-5" style="background:linear-gradient(180deg, black, red)">

@@ -1,4 +1,4 @@
-import { createContext, FunctionalComponent } from 'preact'
+import { createContext, type FunctionalComponent } from 'preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
 
 interface Route {

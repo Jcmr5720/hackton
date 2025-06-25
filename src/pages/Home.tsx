@@ -1,4 +1,4 @@
-import { FunctionalComponent } from 'preact'
+import { type FunctionalComponent } from 'preact'
 import { Carousel } from '../components/Carousel'
 import { Reservations } from '../components/Reservations'
 

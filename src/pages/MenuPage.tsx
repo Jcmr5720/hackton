@@ -1,4 +1,4 @@
-import { FunctionalComponent } from 'preact'
+import { type FunctionalComponent } from 'preact'
 
 export const MenuPage: FunctionalComponent = () => (
   <section class="py-5 text-white" style="background:black">
