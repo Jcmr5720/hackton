@@ -135,6 +135,20 @@ export default function RegisterModal() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('Intentando registrar:', {
+      username: form.username,
+      user: form.user,
+      email: form.email,
+      repeat_email: form.repeat_email,
+      password: form.password,
+      repeat_password: form.repeat_password,
+      phone: form.phone,
+      birth_date: form.birth_date,
+      address: form.address,
+      country: form.country,
+      city: form.city,
+      accepted_terms: form.accepted_terms
+    })
     const reqFields = ['username', 'user', 'email', 'repeat_email', 'password', 'repeat_password', 'country', 'city', 'birth_date']
     const newErrors: Record<string, string> = {}
     for (const field of reqFields) {
@@ -147,9 +161,13 @@ export default function RegisterModal() {
     if (form.email !== form.repeat_email) newErrors.repeat_email = 'Los correos no coinciden'
     if (form.password !== form.repeat_password) newErrors.repeat_password = 'Las contraseñas no coinciden'
     setErrors(newErrors)
+    for (const [field, msg] of Object.entries(newErrors)) {
+      console.error(`Error en ${field}: ${msg}`)
+    }
     if (Object.keys(newErrors).length > 0) return
 
     try {
+      console.log('Enviando registro al backend')
       const res = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -169,6 +187,16 @@ export default function RegisterModal() {
       })
       const data = await res.json()
       if (res.ok) {
+        console.log('Registro exitoso', {
+          username: form.username,
+          user: form.user,
+          email: form.email,
+          country: form.country,
+          city: form.city,
+          phone: form.phone,
+          birth_date: form.birth_date,
+          address: form.address
+        })
         setSuccess(true)
         setMessage('Usuario registrado correctamente')
         setForm({
@@ -191,10 +219,16 @@ export default function RegisterModal() {
       } else {
         setSuccess(false)
         setMessage(data.error || 'Error al registrar')
+        console.error('Error en registro:', data.error || 'Error al registrar')
       }
     } catch (err) {
       setSuccess(false)
       setMessage('Error al registrar')
+      if (err instanceof Error) {
+        console.error('Error en registro:', err.message)
+      } else {
+        console.error('Error en registro:', err)
+      }
     }
   }
 
