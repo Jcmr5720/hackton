@@ -50,3 +50,21 @@ section {
   border-color: #ff5722;
   color: #fff;
 }
+
+/* Reserva button styling */
+.btn-reserva {
+  background: linear-gradient(45deg, #000, #ff5722);
+  color: #fff;
+  border: none;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.btn-reserva:hover {
+  opacity: 0.85;
+  transform: scale(1.02);
+  color: #fff;
+}
+
+.modal-backdrop.show {
+  backdrop-filter: blur(4px);
+}
