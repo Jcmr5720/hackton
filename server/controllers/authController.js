@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import pool from '../db.js';
+import { supabase } from '../supabaseClient.js';
 import { getClientIp } from '../utils.js';
 
 export async function register(req, res) {
@@ -11,17 +11,34 @@ export async function register(req, res) {
   }
   const { username, user, role, email, password, accepted_terms, phone, birth_date, address, country, city } = req.body;
   try {
-    const exists = await pool.query('SELECT 1 FROM logger WHERE username = $1 OR email = $2', [username, email]);
-    if (exists.rows.length > 0) {
+    const { data: existing, error: existErr } = await supabase
+      .from('logger')
+      .select('id')
+      .or(`username.eq.${username},email.eq.${email}`);
+    if (existErr) throw existErr;
+    if (existing && existing.length > 0) {
       return res.status(409).json({ error: 'Username or email already exists' });
     }
     const hashed = await bcrypt.hash(password, 10);
     const ip = getClientIp(req);
-    await pool.query(
-      `INSERT INTO logger (username, "user", role, email, password, accepted_terms, phone, birth_date, address, country, city, registration_ip, registration_date)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,NOW())`,
-      [username, user, role, email, hashed, accepted_terms, phone ?? null, birth_date ?? null, address ?? null, country ?? null, city ?? null, ip]
-    );
+    const { error } = await supabase.from('logger').insert([
+      {
+        username,
+        user,
+        role,
+        email,
+        password: hashed,
+        accepted_terms,
+        phone: phone ?? null,
+        birth_date: birth_date ?? null,
+        address: address ?? null,
+        country: country ?? null,
+        city: city ?? null,
+        registration_ip: ip,
+        registration_date: new Date().toISOString(),
+      },
+    ]);
+    if (error) throw error;
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
     console.error(err);
@@ -35,13 +52,19 @@ export async function checkAvailability(req, res) {
     return res.status(400).json({ error: 'username or email query parameter required' });
   }
   try {
-    const result = await pool.query(
-      'SELECT username, email FROM logger WHERE username = $1 OR email = $2',
-      [username ?? null, email ?? null]
-    );
+    let query = supabase.from('logger').select('username,email');
+    if (username && email) {
+      query = query.or(`username.eq.${username},email.eq.${email}`);
+    } else if (username) {
+      query = query.eq('username', username);
+    } else if (email) {
+      query = query.eq('email', email);
+    }
+    const { data, error } = await query;
+    if (error) throw error;
     let usernameExists = false;
     let emailExists = false;
-    for (const row of result.rows) {
+    for (const row of data ?? []) {
       if (username && row.username === username) usernameExists = true;
       if (email && row.email === email) emailExists = true;
     }
@@ -58,17 +81,24 @@ export async function login(req, res) {
     return res.status(400).json({ error: 'usernameOrEmail and password are required' });
   }
   try {
-    const result = await pool.query('SELECT id, password FROM logger WHERE username = $1 OR email = $1', [usernameOrEmail]);
-    if (result.rows.length === 0) {
+    const { data: userRow, error } = await supabase
+      .from('logger')
+      .select('id,password')
+      .or(`username.eq.${usernameOrEmail},email.eq.${usernameOrEmail}`)
+      .maybeSingle();
+    if (error) throw error;
+    if (!userRow) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
-    const userRow = result.rows[0];
     const match = await bcrypt.compare(password, userRow.password);
     if (!match) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
     const ip = getClientIp(req);
-    await pool.query('UPDATE logger SET last_ip = $1, last_login = NOW() WHERE id = $2', [ip, userRow.id]);
+    await supabase
+      .from('logger')
+      .update({ last_ip: ip, last_login: new Date().toISOString() })
+      .eq('id', userRow.id);
     res.json({ message: 'Login successful' });
   } catch (err) {
     console.error(err);

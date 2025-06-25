@@ -1,14 +1,17 @@
 import { Router } from 'express'
-import pool from '../db.js'
+import { supabase } from '../supabaseClient.js'
 
 const router = Router()
 
 router.get('/', async (_req, res) => {
   try {
-    const result = await pool.query(
-      'SELECT id, image, title, description, price FROM products WHERE active = true ORDER BY id'
-    )
-    res.json(result.rows)
+    const { data, error } = await supabase
+      .from('products')
+      .select('id, image, title, description, price')
+      .eq('active', true)
+      .order('id')
+    if (error) throw error
+    res.json(data)
   } catch (err) {
     console.error(err)
     res.status(500).json({ error: 'Failed to fetch products' })

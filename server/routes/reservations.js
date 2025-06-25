@@ -1,44 +1,46 @@
 import { Router } from 'express'
-import { spawn } from 'child_process'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import { supabase } from '../supabaseClient.js'
 
 const router = Router()
 
-router.post('/', (req, res) => {
-  const __dirname = path.dirname(fileURLToPath(import.meta.url))
-  const scriptPath = path.join(__dirname, '..', '..', 'python', 'create_reservation.py')
-  const child = spawn('python', [scriptPath])
+router.post('/', async (req, res) => {
+  try {
+    const {
+      customer_name,
+      customer_phone,
+      customer_mobile,
+      customer_email,
+      reservation_date,
+      number_of_people,
+      special_requests,
+    } = req.body
 
-  child.stdin.write(JSON.stringify(req.body))
-  child.stdin.end()
+    const { data, error } = await supabase
+      .from('reservations')
+      .insert([
+        {
+          customer_name,
+          customer_phone,
+          customer_mobile,
+          customer_email,
+          reservation_date,
+          number_of_people,
+          special_requests,
+          status: 'pending',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+      ])
+      .select('id')
+      .single()
 
-  let output = ''
-  let errorOutput = ''
-  child.stdout.on('data', data => {
-    output += data.toString()
-  })
-  child.stderr.on('data', data => {
-    errorOutput += data.toString()
-  })
+    if (error) throw error
 
-  child.on('close', code => {
-    if (code === 0) {
-      try {
-        const result = JSON.parse(output)
-        res.json(result)
-      } catch (err) {
-        res.status(500).json({ error: 'Error procesando la reserva' })
-      }
-    } else {
-      try {
-        const err = JSON.parse(output || errorOutput)
-        res.status(400).json(err)
-      } catch (e) {
-        res.status(500).json({ error: errorOutput || 'Error procesando la reserva' })
-      }
-    }
-  })
+    res.json({ reservation_id: data.id })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Error procesando la reserva' })
+  }
 })
 
 export default router
