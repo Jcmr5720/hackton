@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-
-// Backend interactions removed
+import { createReservation } from '../reservations'
 
 interface FormState {
   customer_name: string
@@ -30,19 +29,42 @@ export default function ReservationModal() {
     setForm(f => ({ ...f, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSuccess(true)
-    setMessage('Reserva creada (sin conexión a base de datos)')
-    setForm({
-      customer_name: '',
-      customer_phone: '',
-      customer_mobile: '',
-      customer_email: '',
-      reservation_date: '',
-      number_of_people: '1',
-      special_requests: ''
-    })
+    try {
+      const res = await createReservation({
+        logger_id: null,
+        customer_username: null,
+        customer_name: form.customer_name || null,
+        customer_phone: form.customer_phone || null,
+        customer_mobile: form.customer_mobile || null,
+        customer_email: form.customer_email || null,
+        reservation_date: form.reservation_date,
+        number_of_people: parseInt(form.number_of_people, 10),
+        table_number: null,
+        special_requests: form.special_requests || null,
+        user_id: null
+      })
+      if (res.success && res.data) {
+        setSuccess(true)
+        setMessage(`Reserva creada. Código: ${res.data.code}`)
+        setForm({
+          customer_name: '',
+          customer_phone: '',
+          customer_mobile: '',
+          customer_email: '',
+          reservation_date: '',
+          number_of_people: '1',
+          special_requests: ''
+        })
+      } else {
+        setSuccess(false)
+        setMessage(res.error || 'Error al crear reserva')
+      }
+    } catch (err) {
+      setSuccess(false)
+      setMessage(err instanceof Error ? err.message : 'Error al crear reserva')
+    }
   }
 
   return (
