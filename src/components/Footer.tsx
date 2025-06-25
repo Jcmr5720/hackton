@@ -4,11 +4,14 @@ export default function Footer() {
   return (
     <footer className="premium-footer mt-auto pt-5 text-white">
       <div className="container">
-        <div className="row gy-4">
-          <div className="col-12 col-md-3 d-flex align-items-center">
-            <img src="/img/logo.png" alt="Al Rock Burger Logo" className="footer-logo me-2" />
-            <span className="h4 fw-bold mb-0">Al Rock Burger</span>
-          </div>
+        <div className="d-flex justify-content-center align-items-center mb-4">
+          <img
+            src="/img/logo.png"
+            alt="Al Rock Burger Logo"
+            className="footer-logo-large"
+          />
+        </div>
+        <div className="row gy-4 justify-content-center text-center text-md-start">
           <div className="col-12 col-md-3">
             <h6 className="fw-bold mb-3">Contacto</h6>
             <ul className="list-unstyled">
@@ -44,7 +47,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer-bottom text-center mt-5 pt-3">
-          &copy; {new Date().getFullYear()} Al Rock Burger. Todos los derechos reservados.
+          &copy; {new Date().getFullYear()} Todos los derechos reservados.
         </div>
       </div>
     </footer>

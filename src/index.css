@@ -184,6 +184,23 @@ section {
   height: 80px;
 }
 
+.premium-footer .footer-logo-large {
+  height: 140px;
+  animation: footerLogoAppear 0.8s ease forwards;
+  filter: drop-shadow(0 0 10px rgba(255, 87, 34, 0.6));
+}
+
+@keyframes footerLogoAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .premium-footer a {
   color: #fff;
   text-decoration: none;
