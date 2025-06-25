@@ -64,12 +64,15 @@ export default function ReservationModal() {
   }
 
   return (
-    <div className="modal fade" id="reservationModal" tabIndex={-1} aria-hidden="true">
-      <div className="modal-dialog modal-dialog-centered">
+    <div className="modal fade premium-modal" id="reservationModal" tabIndex={-1} aria-hidden="true">
+      <div className="modal-dialog modal-dialog-centered animate__animated animate__zoomIn">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Haz tu reserva</h5>
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 className="modal-title">
+              <img src="/img/logo.png" alt="logo" style={{ height: '30px' }} />
+              Haz tu reserva
+            </h5>
+            <button type="button" className="btn-close rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div className="modal-body">
             {message && (
@@ -152,7 +155,7 @@ export default function ReservationModal() {
                   onChange={updateField}
                 />
               </div>
-              <button type="submit" className="btn btn-dark w-100 rounded-pill fw-bold">
+              <button type="submit" className="btn premium-submit w-100 rounded-pill fw-bold">
                 Reservar
               </button>
             </form>

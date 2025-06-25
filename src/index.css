@@ -157,3 +157,40 @@ section {
   opacity: 0.9;
   color: #fff;
 }
+
+/* Reserva button styles */
+.btn-reserva {
+  background: linear-gradient(45deg, #ff0000, #ff8800);
+  background-size: 200% 200%;
+  border: none;
+  color: #fff;
+  transition: transform 0.3s ease;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+  animation: gradientShift 8s ease infinite, glowPulse 3s ease-in-out infinite;
+}
+
+.btn-reserva:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 87, 34, 0.8);
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 87, 34, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 87, 34, 0.8);
+  }
+}

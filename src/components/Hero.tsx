@@ -15,10 +15,11 @@ export default function Hero() {
       <div className="container">
         <h1 className="display-4 fw-bold mb-4">¡La mejor hamburguesa de la ciudad!</h1>
         <button
-          className="btn btn-reserva btn-lg rounded-pill px-4 fw-bold"
+          className="btn btn-reserva btn-lg rounded-pill px-5 fw-bold shadow-lg animate__animated animate__pulse animate__infinite hvr-grow d-inline-flex align-items-center mb-5"
           data-bs-toggle="modal"
           data-bs-target="#reservationModal"
         >
+          <i className="bi bi-calendar2-check-fill me-2" />
           Haz tu reserva
         </button>
       </div>
