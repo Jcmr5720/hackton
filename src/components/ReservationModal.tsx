@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { API_URL } from '../supabaseClient'
+// Backend interactions removed
 
 interface FormState {
   customer_name: string
@@ -30,39 +30,19 @@ export default function ReservationModal() {
     setForm(f => ({ ...f, [name]: value }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setMessage(null)
-    try {
-      const res = await fetch(`${API_URL}/reservations`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          number_of_people: parseInt(form.number_of_people)
-        })
-      })
-      const data = await res.json()
-      if (res.ok) {
-        setSuccess(true)
-        setMessage('Reserva creada exitosamente')
-        setForm({
-          customer_name: '',
-          customer_phone: '',
-          customer_mobile: '',
-          customer_email: '',
-          reservation_date: '',
-          number_of_people: '1',
-          special_requests: ''
-        })
-      } else {
-        setSuccess(false)
-        setMessage(data.error || 'Error al crear la reserva')
-      }
-    } catch (err) {
-      setSuccess(false)
-      setMessage('Error al crear la reserva')
-    }
+    setSuccess(true)
+    setMessage('Reserva creada (sin conexión a base de datos)')
+    setForm({
+      customer_name: '',
+      customer_phone: '',
+      customer_mobile: '',
+      customer_email: '',
+      reservation_date: '',
+      number_of_people: '1',
+      special_requests: ''
+    })
   }
 
   return (
