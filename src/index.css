@@ -7,3 +7,46 @@ section {
   padding-top: 60px;
   padding-bottom: 60px;
 }
+
+/* Premium header styling */
+.premium-header {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.8));
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  min-height: 90px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.premium-header .logo-img {
+  height: 70px;
+}
+
+.premium-header .navbar-brand {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.premium-header .navbar-brand:hover {
+  color: #ff5722;
+}
+
+.premium-header .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.premium-header .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+.premium-header .btn-outline-light {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+
+.premium-header .btn-outline-light:hover {
+  background-color: #ff5722;
+  border-color: #ff5722;
+  color: #fff;
+}
