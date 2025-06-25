@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { registerUser } from '../auth'
@@ -69,8 +69,9 @@ export default function RegisterModal() {
     return
   }
 
-  function updateField(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-    const { name, value, type, checked } = e.target
+  function updateField(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    const target = e.target as HTMLInputElement | HTMLSelectElement
+    const { name, value, type, checked } = target
     const val = type === 'checkbox' ? checked : value
     setForm(f => ({ ...f, [name]: val }))
     if (errors[name]) {
@@ -117,7 +118,7 @@ export default function RegisterModal() {
     }
   }, [form.password, form.repeat_password])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     const reqFields = ['username', 'user', 'email', 'repeat_email', 'password', 'repeat_password', 'country', 'city', 'birth_date']
     const newErrors: Record<string, string> = {}

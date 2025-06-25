@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function Footer() {
   return (
     <footer className="premium-footer mt-auto pt-5 text-white">

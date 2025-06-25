@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function Contact() {
   return (
     <section id="contacto" className="py-5 bg-light">

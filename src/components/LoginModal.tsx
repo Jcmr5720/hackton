@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { loginUser } from '../auth'
 
 export default function LoginModal() {
@@ -7,7 +7,7 @@ export default function LoginModal() {
   const [message, setMessage] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     try {
       await loginUser(email, password, window.location.hostname)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { createReservation } from '../reservations'
 
 interface FormState {
@@ -24,12 +24,12 @@ export default function ReservationModal() {
   const [message, setMessage] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
-  function updateField(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+  function updateField(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target
     setForm(f => ({ ...f, [name]: value }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     try {
       const res = await createReservation({
