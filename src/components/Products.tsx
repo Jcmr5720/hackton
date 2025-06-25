@@ -14,7 +14,12 @@ export default function Products() {
   }, [])
 
   function formatPrice(value: number) {
-    return value.toLocaleString('es-ES', { style: 'currency', currency: 'USD' })
+    return (
+      value.toLocaleString('es-ES', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }) + ' $ COP'
+    )
   }
 
   return (
