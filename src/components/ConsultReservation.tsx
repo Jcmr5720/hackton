@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { findReservationByCode } from '../reservations'
 
 export default function ConsultReservation() {
@@ -6,7 +6,7 @@ export default function ConsultReservation() {
   const [message, setMessage] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     try {
       const res = await findReservationByCode(code.trim())
