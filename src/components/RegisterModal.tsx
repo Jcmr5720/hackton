@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+const API_URL = import.meta.env.VITE_API_URL || ''
+
 interface FormState {
   username: string
   user: string
@@ -40,7 +42,7 @@ export default function RegisterModal() {
   async function checkAvailability(field: 'username' | 'email', value: string) {
     if (!value) return
     try {
-      const res = await fetch(`/auth/check?${field}=${encodeURIComponent(value)}`)
+      const res = await fetch(`${API_URL}/auth/check?${field}=${encodeURIComponent(value)}`)
       const data = await res.json()
       if (data[`${field}Exists`]) {
         setErrors(err => ({ ...err, [field]: `${field === 'username' ? 'Nombre de usuario' : 'Correo'} no disponible` }))
@@ -96,7 +98,7 @@ export default function RegisterModal() {
     if (Object.keys(newErrors).length > 0) return
 
     try {
-      const res = await fetch('/auth/register', {
+      const res = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
