@@ -69,10 +69,10 @@ export default function RegisterModal() {
     return
   }
 
-  function updateField(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-    const target = e.target as HTMLInputElement | HTMLSelectElement
-    const { name, value, type, checked } = target
-    const val = type === 'checkbox' ? checked : value
+  function updateField(e: ChangeEvent<HTMLInputElement>) {
+    const target = e.target
+    const { name, value, type } = target
+    const val = type === 'checkbox' ? target.checked : value
     setForm(f => ({ ...f, [name]: val }))
     if (errors[name]) {
       if (val) {
