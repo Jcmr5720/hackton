@@ -1,16 +1,25 @@
-import { h } from 'preact'
-import { Header } from './components/Header'
-import { Hero } from './components/Hero'
-import { Contact } from './components/Contact'
-import { Footer } from './components/Footer'
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Header from './components/Header'
+import LoginModal from './components/LoginModal'
+import RegisterModal from './components/RegisterModal'
+import Footer from './components/Footer'
+import Home from './pages/Home'
+import About from './pages/About'
 import './app.css'
 
-export function App() {
+export default function App() {
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       <Header />
-      <Hero />
-      <Contact />
+      <LoginModal />
+      <RegisterModal />
+      <main className="flex-fill pt-5">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </main>
       <Footer />
     </div>
   )

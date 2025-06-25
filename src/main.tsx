@@ -1,5 +1,13 @@
-import { render } from 'preact'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
+import App from './app'
 import './index.css'
-import { App } from './app.tsx'
 
-render(<App />, document.getElementById('app')!)
+ReactDOM.createRoot(document.getElementById('app') as HTMLElement).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
+)
