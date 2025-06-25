@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import CustomSelect from './CustomSelect'
+import React, { useState, useEffect, useMemo } from 'react'
+import Select from 'react-select'
+import countryList from 'react-select-country-list'
+import worldCities from 'react-world-cities'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -21,14 +23,10 @@ interface FormState {
   accepted_terms: boolean
 }
 
-const countries = [
-  { value: 'AR', label: 'Argentina', cities: ['Buenos Aires', 'C\u00f3rdoba', 'Rosario'] },
-  { value: 'MX', label: 'M\u00e9xico', cities: ['Ciudad de M\u00e9xico', 'Guadalajara', 'Monterrey'] },
-  { value: 'US', label: 'Estados Unidos', cities: ['New York', 'Los Angeles', 'Chicago'] },
-  { value: 'ES', label: 'Espa\u00f1a', cities: ['Madrid', 'Barcelona', 'Valencia'] }
-] as const
-
-const countryOptions = countries.map(c => ({ value: c.label, label: c.label }))
+interface Option {
+  value: string
+  label: string
+}
 
 export default function RegisterModal() {
   const [form, setForm] = useState<FormState>({
@@ -50,9 +48,11 @@ export default function RegisterModal() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [message, setMessage] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
-  const [cityOptions, setCityOptions] = useState<{ value: string; label: string }[]>([])
+  const [cityOptions, setCityOptions] = useState<Option[]>([])
   const [birthDate, setBirthDate] = useState<Date | null>(null)
-  const maxBirthDate = new Date('2007-12-31')
+  const countryOptions = useMemo(() => countryList().getData(), [])
+  const [country, setCountry] = useState<Option | null>(null)
+  const [city, setCity] = useState<Option | null>(null)
 
   async function checkAvailability(field: 'username' | 'email', value: string) {
     if (!value) return
@@ -77,19 +77,26 @@ export default function RegisterModal() {
     setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
   }
 
-  function updateCountry(option: { value: string; label: string } | null) {
+  function updateCountry(option: Option | null) {
     const country = option ? option.label : ''
+    setCountry(option)
+    setCity(null)
     setForm(f => ({ ...f, country, city: '' }))
-    const found = countries.find(c => c.label === country)
-    setCityOptions(found ? found.cities.map(cty => ({ value: cty, label: cty })) : [])
+    const filtered = option
+      ? (worldCities as any)
+          .filter((c: any) => c.country === option.label)
+          .map((c: any) => ({ value: c.name, label: c.name }))
+      : []
+    setCityOptions(filtered)
     setErrors(err => {
       const { country: _c, city: _ci, ...rest } = err
       return rest
     })
   }
 
-  function updateCity(option: { value: string; label: string } | null) {
+  function updateCity(option: Option | null) {
     const city = option ? option.label : ''
+    setCity(option)
     setForm(f => ({ ...f, city }))
     setErrors(err => {
       const { city: _ci, ...rest } = err
@@ -101,14 +108,10 @@ export default function RegisterModal() {
     setBirthDate(date)
     const str = date ? date.toISOString().split('T')[0] : ''
     setForm(f => ({ ...f, birth_date: str }))
-    if (date && date > maxBirthDate) {
-      setErrors(err => ({ ...err, birth_date: 'Debes ser mayor de edad para registrarte.' }))
-    } else {
-      setErrors(err => {
-        const { birth_date, ...rest } = err
-        return rest
-      })
-    }
+    setErrors(err => {
+      const { birth_date, ...rest } = err
+      return rest
+    })
   }
 
   useEffect(() => {
@@ -155,9 +158,6 @@ export default function RegisterModal() {
       if (!form[field as keyof FormState]) newErrors[field] = 'Campo requerido'
     }
     if (!form.accepted_terms) newErrors.accepted_terms = 'Debes aceptar los términos'
-    if (form.birth_date && new Date(form.birth_date) > maxBirthDate) {
-      newErrors.birth_date = 'Debes ser mayor de edad para registrarte.'
-    }
     if (form.email !== form.repeat_email) newErrors.repeat_email = 'Los correos no coinciden'
     if (form.password !== form.repeat_password) newErrors.repeat_password = 'Las contraseñas no coinciden'
     setErrors(newErrors)
@@ -216,6 +216,8 @@ export default function RegisterModal() {
         })
         setBirthDate(null)
         setCityOptions([])
+        setCountry(null)
+        setCity(null)
       } else {
         setSuccess(false)
         setMessage(data.error || 'Error al registrar')
@@ -369,7 +371,6 @@ export default function RegisterModal() {
                     selected={birthDate}
                     onChange={updateBirth}
                     className={`form-control ${errors.birth_date ? 'is-invalid' : ''}`}
-                    maxDate={maxBirthDate}
                     dateFormat="yyyy-MM-dd"
                     placeholderText="Selecciona fecha"
                   />
@@ -394,10 +395,10 @@ export default function RegisterModal() {
                 <div className="input-group dark-input-group">
                   <span className="input-group-text"><i className="bi bi-flag-fill" /></span>
                   <div className="flex-grow-1">
-                    <CustomSelect
-                      classNamePrefix="premium-select"
+                    <Select
+                      classNamePrefix="select"
                       options={countryOptions}
-                      value={countryOptions.find(c => c.label === form.country) || null}
+                      value={country}
                       onChange={updateCountry}
                       placeholder="Selecciona un país"
                     />
@@ -410,13 +411,13 @@ export default function RegisterModal() {
                 <div className="input-group dark-input-group">
                   <span className="input-group-text"><i className="bi bi-building" /></span>
                   <div className="flex-grow-1">
-                    <CustomSelect
-                      classNamePrefix="premium-select"
+                    <Select
+                      classNamePrefix="select"
                       options={cityOptions}
-                      value={cityOptions.find(c => c.label === form.city) || null}
+                      value={city}
                       onChange={updateCity}
                       placeholder="Selecciona una ciudad"
-                      isDisabled={cityOptions.length === 0}
+                      isDisabled={!country}
                     />
                   </div>
                 </div>
