@@ -7,7 +7,8 @@ This project contains a Node.js/React application and Python module for managing
 Create a `.env` file in the project root with your database configuration. An example
 file is provided as `.env.example`.
 
-Supabase credentials are stored in `server/config.js`. Edit that file to update
+Supabase credentials are stored in `server/config.js` for the API server and in
+`src/supabaseClient.tsx` for the React application. Edit either file to update
 `SUPABASE_URL` and `SUPABASE_ANON_KEY`.
 
 If you want to start from the template, run:
@@ -21,9 +22,9 @@ Edit `.env` and set the following variable:
 - `DATABASE_URL` – PostgreSQL connection string (e.g., your Supabase database URL)
 - `PORT` – (optional) server port, defaults to `3000`
 
-The `server/supabaseClient.js` module uses these variables to initialize a Supabase client.
-
-These variables allow the server and scripts to access the `logger` and `reservations` tables hosted on Supabase.
+These credentials allow the server and scripts to access the `logger`,
+`products` and `reservations` tables hosted on Supabase. They are also used in
+`src/supabaseClient.tsx` so the React app can query the same database directly.
 
 ## Running
 
