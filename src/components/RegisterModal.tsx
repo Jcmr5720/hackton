@@ -19,6 +19,13 @@ interface FormState {
   accepted_terms: boolean
 }
 
+interface ToastInfo {
+  id: number
+  message: string
+  variant: 'success' | 'danger' | 'warning'
+  icon: string
+}
+
 export default function RegisterModal() {
   const [form, setForm] = useState<FormState>({
     username: '',
@@ -37,9 +44,25 @@ export default function RegisterModal() {
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const [message, setMessage] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
   const [birthDate, setBirthDate] = useState<Date | null>(null)
+  const [toasts, setToasts] = useState<ToastInfo[]>([])
+
+  function showToast(message: string, variant: 'success' | 'danger' | 'warning') {
+    const icons = {
+      success: 'bi-check-circle-fill',
+      danger: 'bi-x-circle-fill',
+      warning: 'bi-exclamation-triangle-fill'
+    }
+    const id = Date.now()
+    setToasts(t => [...t, { id, message, variant, icon: icons[variant] }])
+    setTimeout(() => {
+      setToasts(t => t.filter(toast => toast.id !== id))
+    }, 4000)
+  }
+
+  function removeToast(id: number) {
+    setToasts(t => t.filter(toast => toast.id !== id))
+  }
 
   function checkAvailability(_field: 'username' | 'email', _value: string) {
     // No backend, validation skipped
@@ -48,7 +71,16 @@ export default function RegisterModal() {
 
   function updateField(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value, type, checked } = e.target
-    setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
+    const val = type === 'checkbox' ? checked : value
+    setForm(f => ({ ...f, [name]: val }))
+    if (errors[name]) {
+      if (val) {
+        setErrors(err => {
+          const { [name]: _removed, ...rest } = err
+          return rest
+        })
+      }
+    }
   }
 
 
@@ -96,8 +128,8 @@ export default function RegisterModal() {
     if (form.email !== form.repeat_email) newErrors.repeat_email = 'Los correos no coinciden'
     if (form.password !== form.repeat_password) newErrors.repeat_password = 'Las contraseñas no coinciden'
     setErrors(newErrors)
-    for (const [field, msg] of Object.entries(newErrors)) {
-      console.error(`Error en ${field}: ${msg}`)
+    for (const msg of Object.values(newErrors)) {
+      showToast(msg, 'warning')
     }
     if (Object.keys(newErrors).length > 0) return
 
@@ -115,8 +147,7 @@ export default function RegisterModal() {
         country: form.country,
         city: form.city
       })
-      setSuccess(true)
-      setMessage('Registro exitoso')
+      showToast('Registro exitoso', 'success')
       setForm({
         username: '',
         user: '',
@@ -134,21 +165,22 @@ export default function RegisterModal() {
       })
       setBirthDate(null)
     } catch (err) {
-      setSuccess(false)
-      setMessage(err instanceof Error ? err.message : 'Error al registrar')
+      const msg = err instanceof Error ? err.message : 'Error al registrar'
+      showToast(msg, 'danger')
     }
   }
 
   return (
-    <div className="modal fade premium-modal" id="registerModal" tabIndex={-1} aria-hidden="true">
-      <div className="modal-dialog modal-dialog-centered modal-lg">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">
-              <img src="/img/logo.png" alt="logo" style={{ height: '30px' }} />
-              Crea tu cuenta
-            </h5>
-            <button
+    <>
+      <div className="modal fade premium-modal" id="registerModal" tabIndex={-1} aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-lg">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">
+                <img src="/img/logo.png" alt="logo" style={{ height: '30px' }} />
+                Crea tu cuenta
+              </h5>
+              <button
               type="button"
               className="modal-close-btn"
               data-bs-dismiss="modal"
@@ -158,11 +190,6 @@ export default function RegisterModal() {
             </button>
           </div>
           <div className="modal-body">
-            {message && (
-              <div className={`alert ${success ? 'alert-success' : 'alert-danger'}`} role="alert">
-                {message}
-              </div>
-            )}
             <form onSubmit={handleSubmit} noValidate>
               <h6 className="premium-modal-section-title">Cuenta</h6>
               <div className="mb-3">
@@ -342,9 +369,34 @@ export default function RegisterModal() {
                 Registrarse
               </button>
             </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <div className="toast-container position-fixed top-0 end-0 p-3" style={{ zIndex: 2000 }}>
+        {toasts.map(t => (
+          <div
+            key={t.id}
+            className={`toast align-items-center text-bg-${t.variant} show fade`}
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+          >
+            <div className="d-flex">
+              <div className="toast-body">
+                <i className={`bi ${t.icon} me-2`}></i>
+                {t.message}
+              </div>
+              <button
+                type="button"
+                className="btn-close btn-close-white me-2 m-auto"
+                aria-label="Close"
+                onClick={() => removeToast(t.id)}
+              ></button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   )
 }
