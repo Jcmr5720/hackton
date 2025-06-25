@@ -18,10 +18,7 @@
     "react-router-dom": "^6.22.3",
     "@supabase/supabase-js": "^2.39.2",
     "cors": "^2.8.5",
-    "react-datepicker": "^4.24.0",
-    "react-select": "^5.7.3",
-    "react-select-country-list": "^3.2.3",
-    "react-world-cities": "^1.0.0"
+    "react-datepicker": "^4.24.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.0",

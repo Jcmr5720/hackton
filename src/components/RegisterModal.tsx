@@ -1,7 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import Select from 'react-select'
-import countryList from 'react-select-country-list'
-import worldCities from 'react-world-cities'
+import React, { useState, useEffect } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -21,11 +18,6 @@ interface FormState {
   country: string
   city: string
   accepted_terms: boolean
-}
-
-interface Option {
-  value: string
-  label: string
 }
 
 export default function RegisterModal() {
@@ -48,11 +40,7 @@ export default function RegisterModal() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [message, setMessage] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
-  const [cityOptions, setCityOptions] = useState<Option[]>([])
   const [birthDate, setBirthDate] = useState<Date | null>(null)
-  const countryOptions = useMemo(() => countryList().getData(), [])
-  const [country, setCountry] = useState<Option | null>(null)
-  const [city, setCity] = useState<Option | null>(null)
 
   async function checkAvailability(field: 'username' | 'email', value: string) {
     if (!value) return
@@ -77,32 +65,7 @@ export default function RegisterModal() {
     setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
   }
 
-  function updateCountry(option: Option | null) {
-    const country = option ? option.label : ''
-    setCountry(option)
-    setCity(null)
-    setForm(f => ({ ...f, country, city: '' }))
-    const filtered = option
-      ? (worldCities as any)
-          .filter((c: any) => c.country === option.label)
-          .map((c: any) => ({ value: c.name, label: c.name }))
-      : []
-    setCityOptions(filtered)
-    setErrors(err => {
-      const { country: _c, city: _ci, ...rest } = err
-      return rest
-    })
-  }
 
-  function updateCity(option: Option | null) {
-    const city = option ? option.label : ''
-    setCity(option)
-    setForm(f => ({ ...f, city }))
-    setErrors(err => {
-      const { city: _ci, ...rest } = err
-      return rest
-    })
-  }
 
   function updateBirth(date: Date | null) {
     setBirthDate(date)
@@ -215,9 +178,6 @@ export default function RegisterModal() {
           accepted_terms: false
         })
         setBirthDate(null)
-        setCityOptions([])
-        setCountry(null)
-        setCity(null)
       } else {
         setSuccess(false)
         setMessage(data.error || 'Error al registrar')
@@ -394,34 +354,29 @@ export default function RegisterModal() {
                 <label className="form-label">País</label>
                 <div className="input-group dark-input-group">
                   <span className="input-group-text"><i className="bi bi-flag-fill" /></span>
-                  <div className="flex-grow-1">
-                    <Select
-                      classNamePrefix="select"
-                      options={countryOptions}
-                      value={country}
-                      onChange={updateCountry}
-                      placeholder="Selecciona un país"
-                    />
-                  </div>
+                  <input
+                    name="country"
+                    type="text"
+                    className={`form-control ${errors.country ? 'is-invalid' : ''}`}
+                    value={form.country}
+                    onChange={updateField}
+                  />
                 </div>
-                {errors.country && <div className="invalid-feedback d-block">{errors.country}</div>}
+                {errors.country && <div className="invalid-feedback">{errors.country}</div>}
               </div>
               <div className="mb-3">
                 <label className="form-label">Ciudad</label>
                 <div className="input-group dark-input-group">
                   <span className="input-group-text"><i className="bi bi-building" /></span>
-                  <div className="flex-grow-1">
-                    <Select
-                      classNamePrefix="select"
-                      options={cityOptions}
-                      value={city}
-                      onChange={updateCity}
-                      placeholder="Selecciona una ciudad"
-                      isDisabled={!country}
-                    />
-                  </div>
+                  <input
+                    name="city"
+                    type="text"
+                    className={`form-control ${errors.city ? 'is-invalid' : ''}`}
+                    value={form.city}
+                    onChange={updateField}
+                  />
                 </div>
-                {errors.city && <div className="invalid-feedback d-block">{errors.city}</div>}
+                {errors.city && <div className="invalid-feedback">{errors.city}</div>}
               </div>
               <div className="form-check mb-3">
                 <input
