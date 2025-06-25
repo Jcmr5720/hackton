@@ -332,7 +332,10 @@ export default function RegisterModal() {
                     onChange={updateBirth}
                     className={`form-control ${errors.birth_date ? 'is-invalid' : ''}`}
                     dateFormat="yyyy-MM-dd"
-                    placeholderText="Selecciona fecha"
+                    placeholderText="Fecha de nacimiento"
+                    showYearDropdown
+                    showMonthDropdown
+                    dropdownMode="select"
                   />
                 </div>
                 {errors.birth_date && <div className="invalid-feedback d-block">{errors.birth_date}</div>}
