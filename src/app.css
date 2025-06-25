@@ -22,3 +22,18 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+.reservation-btn {
+  background-image: linear-gradient(45deg, #dc3545, #fd7e14);
+  border: none;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.reservation-btn:hover {
+  background-image: linear-gradient(45deg, #000, #fd7e14);
+}
+
+.modal-backdrop.show {
+  backdrop-filter: blur(4px);
+}
