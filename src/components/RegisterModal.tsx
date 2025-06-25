@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Select from 'react-select'
+import CustomSelect from './CustomSelect'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -360,7 +360,7 @@ export default function RegisterModal() {
                 <div className="input-group dark-input-group">
                   <span className="input-group-text"><i className="bi bi-flag-fill" /></span>
                   <div className="flex-grow-1">
-                    <Select
+                    <CustomSelect
                       classNamePrefix="premium-select"
                       options={countryOptions}
                       value={countryOptions.find(c => c.label === form.country) || null}
@@ -376,7 +376,7 @@ export default function RegisterModal() {
                 <div className="input-group dark-input-group">
                   <span className="input-group-text"><i className="bi bi-building" /></span>
                   <div className="flex-grow-1">
-                    <Select
+                    <CustomSelect
                       classNamePrefix="premium-select"
                       options={cityOptions}
                       value={cityOptions.find(c => c.label === form.city) || null}

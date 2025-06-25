@@ -240,23 +240,37 @@ section {
 .text-brand {
   color: #ff5722 !important;
 }
-/* Premium react-select styles */
+
+/* Premium select styles */
 .premium-select__control {
   background-color: #222;
   border: 1px solid #444;
   color: #fff;
 }
-.premium-select__control--is-focused {
+.premium-select__control:focus {
   border-color: #ff5722;
   box-shadow: 0 0 0 0.25rem rgba(255,87,34,0.25);
 }
-.premium-select__menu {
+.premium-select__control option {
   background-color: #222;
   color: #fff;
 }
-.premium-select__option--is-focused {
-  background-color: #333;
-}
-.premium-select__option--is-selected {
+.premium-select__control option:checked {
   background-color: #ff5722;
+}
+
+/* Product cards */
+.product-card {
+  border-radius: 0.75rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.15);
+}
+.product-img {
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
 }
