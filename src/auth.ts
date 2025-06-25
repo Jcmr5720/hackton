@@ -1,5 +1,24 @@
 import { createHash } from 'crypto'
-import { supabase, Logger } from './supabaseClient'
+import { supabase } from './supabaseClient'
+
+export type Logger = {
+  id: number
+  username: string | null
+  user: string | null
+  role: string | null
+  email: string | null
+  password: string | null
+  phone: string | null
+  birth_date: string | null
+  address: string | null
+  accepted_terms: boolean | null
+  registration_ip: string | null
+  last_ip: string | null
+  last_login: string | null
+  country: string | null
+  city: string | null
+  registration_date: string | null
+}
 
 export interface RegistrationData {
   username: string
