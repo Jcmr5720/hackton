@@ -110,15 +110,31 @@ section {
   gap: 0.5rem;
 }
 
-.premium-modal .btn-close {
-  background: transparent;
-  color: #fff;
-  opacity: 1;
-  font-size: 1.5rem;
+
+.modal-header {
+  position: relative;
 }
 
-.premium-modal .btn-close:hover {
-  color: #ff5722;
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: background 0.2s;
+}
+
+.modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .dark-input-group .form-control {

@@ -69,7 +69,14 @@ export default function ReservationModal() {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Haz tu reserva</h5>
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              className="modal-close-btn"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <i className="bi bi-x-lg" />
+            </button>
           </div>
           <div className="modal-body">
             {message && (
