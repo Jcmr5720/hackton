@@ -2,9 +2,9 @@ import { h } from 'preact'
 
 export function Contact() {
   return (
-    <section id="contacto" class="py-5 bg-light">
-      <div class="container">
-        <h2 class="mb-4 text-center">Contáctanos</h2>
+    <section id="contacto" class="py-5" style="background:#111">
+      <div class="container text-white">
+        <h2 class="mb-4 text-center" style="color:orange">Contacto</h2>
         <div class="row">
           <div class="col-md-6 mb-4">
             <form>
@@ -20,7 +20,7 @@ export function Contact() {
                 <label class="form-label">Mensaje</label>
                 <textarea class="form-control" rows={4}></textarea>
               </div>
-              <button type="submit" class="btn btn-primary">Enviar</button>
+              <button type="submit" class="btn btn-danger">Enviar</button>
             </form>
           </div>
           <div class="col-md-6">
