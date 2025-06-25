@@ -72,3 +72,88 @@ section {
   color: #fff;
   box-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
 }
+/* Premium modal overlay */
+.modal-backdrop.show {
+  background: radial-gradient(circle at center, rgba(255,87,34,0.2), rgba(0,0,0,0.8));
+  backdrop-filter: blur(6px);
+}
+
+/* Premium modal container */
+.premium-modal .modal-dialog {
+  min-height: calc(100vh - 1rem);
+  display: flex;
+  align-items: center;
+}
+
+.premium-modal .modal-content {
+  background: linear-gradient(to bottom right, #222, #000);
+  border-radius: 1.5rem;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  padding: 1.5rem;
+  color: #fff;
+}
+
+.premium-modal .modal-header {
+  background: rgba(0,0,0,0.4);
+  border-bottom: 1px solid #ff5722;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  margin: -1.5rem -1.5rem 1rem;
+  padding: 1rem 1.5rem;
+}
+
+.premium-modal .modal-title {
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.premium-modal .btn-close {
+  background: transparent;
+  color: #fff;
+  opacity: 1;
+  font-size: 1.5rem;
+}
+
+.premium-modal .btn-close:hover {
+  color: #ff5722;
+}
+
+.dark-input-group .form-control {
+  background-color: #222;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.dark-input-group .form-control:focus {
+  background-color: #222;
+  color: #fff;
+  border-color: #ff5722;
+  box-shadow: 0 0 0 0.25rem rgba(255,87,34,0.25);
+}
+
+.dark-input-group .input-group-text {
+  background-color: #222;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.premium-modal-section-title {
+  font-weight: 600;
+  margin: 1rem 0 0.5rem;
+  border-bottom: 1px solid #ff5722;
+  padding-bottom: 0.25rem;
+}
+
+.premium-submit {
+  background: linear-gradient(45deg, #ff5722, #ff9800);
+  border: none;
+  color: #fff;
+}
+
+.premium-submit:hover {
+  opacity: 0.9;
+  color: #fff;
+}

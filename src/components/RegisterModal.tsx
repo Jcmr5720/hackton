@@ -37,6 +37,24 @@ export default function RegisterModal() {
   const [message, setMessage] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
+  async function checkAvailability(field: 'username' | 'email', value: string) {
+    if (!value) return
+    try {
+      const res = await fetch(`/auth/check?${field}=${encodeURIComponent(value)}`)
+      const data = await res.json()
+      if (data[`${field}Exists`]) {
+        setErrors(err => ({ ...err, [field]: `${field === 'username' ? 'Nombre de usuario' : 'Correo'} no disponible` }))
+      } else {
+        setErrors(err => {
+          const { [field]: _removed, ...rest } = err
+          return rest
+        })
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+
   function updateField(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value, type, checked } = e.target
     setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
@@ -125,12 +143,15 @@ export default function RegisterModal() {
   }
 
   return (
-    <div className="modal fade" id="registerModal" tabIndex={-1} aria-hidden="true">
-      <div className="modal-dialog">
+    <div className="modal fade premium-modal" id="registerModal" tabIndex={-1} aria-hidden="true">
+      <div className="modal-dialog modal-dialog-centered modal-lg">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Crea tu cuenta</h5>
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 className="modal-title">
+              <img src="/img/logo.png" alt="logo" style={{ height: '30px' }} />
+              Crea tu cuenta
+            </h5>
+            <button type="button" className="btn-close rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div className="modal-body">
             {message && (
@@ -139,121 +160,161 @@ export default function RegisterModal() {
               </div>
             )}
             <form onSubmit={handleSubmit} noValidate>
+              <h6 className="premium-modal-section-title">Cuenta</h6>
               <div className="mb-3">
                 <label className="form-label">Nombre de usuario</label>
-                <input
-                  name="username"
-                  type="text"
-                  className={`form-control ${errors.username ? 'is-invalid' : ''}`}
-                  value={form.username}
-                  onChange={updateField}
-                />
+                <div className="input-group dark-input-group">
+                  <span className="input-group-text"><i className="bi bi-person-fill" /></span>
+                  <input
+                    name="username"
+                    type="text"
+                    className={`form-control ${errors.username ? 'is-invalid' : ''}`}
+                    value={form.username}
+                    onChange={updateField}
+                    onBlur={e => checkAvailability('username', e.target.value)}
+                  />
+                </div>
                 {errors.username && <div className="invalid-feedback">{errors.username}</div>}
               </div>
               <div className="mb-3">
                 <label className="form-label">Nombre</label>
-                <input
-                  name="user"
-                  type="text"
-                  className={`form-control ${errors.user ? 'is-invalid' : ''}`}
-                  value={form.user}
-                  onChange={updateField}
-                />
+                <div className="input-group dark-input-group">
+                  <span className="input-group-text"><i className="bi bi-person-badge-fill" /></span>
+                  <input
+                    name="user"
+                    type="text"
+                    className={`form-control ${errors.user ? 'is-invalid' : ''}`}
+                    value={form.user}
+                    onChange={updateField}
+                  />
+                </div>
                 {errors.user && <div className="invalid-feedback">{errors.user}</div>}
               </div>
               <div className="mb-3">
                 <label className="form-label">Correo electrónico</label>
-                <input
-                  name="email"
-                  type="email"
-                  className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                  value={form.email}
-                  onChange={updateField}
-                />
+                <div className="input-group dark-input-group">
+                  <span className="input-group-text"><i className="bi bi-envelope-fill" /></span>
+                  <input
+                    name="email"
+                    type="email"
+                    className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                    value={form.email}
+                    onChange={updateField}
+                    onBlur={e => checkAvailability('email', e.target.value)}
+                  />
+                </div>
                 {errors.email && <div className="invalid-feedback">{errors.email}</div>}
               </div>
               <div className="mb-3">
                 <label className="form-label">Repite tu correo electrónico</label>
-                <input
-                  name="repeat_email"
-                  type="email"
-                  className={`form-control ${errors.repeat_email ? 'is-invalid' : ''}`}
-                  value={form.repeat_email}
-                  onChange={updateField}
-                />
+                <div className="input-group dark-input-group">
+                  <span className="input-group-text"><i className="bi bi-envelope-fill" /></span>
+                  <input
+                    name="repeat_email"
+                    type="email"
+                    className={`form-control ${errors.repeat_email ? 'is-invalid' : ''}`}
+                    value={form.repeat_email}
+                    onChange={updateField}
+                  />
+                </div>
                 {errors.repeat_email && <div className="invalid-feedback">{errors.repeat_email}</div>}
               </div>
+
+              <h6 className="premium-modal-section-title">Seguridad</h6>
               <div className="mb-3">
                 <label className="form-label">Contraseña</label>
-                <input
-                  name="password"
-                  type="password"
-                  className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                  value={form.password}
-                  onChange={updateField}
-                />
+                <div className="input-group dark-input-group">
+                  <span className="input-group-text"><i className="bi bi-lock-fill" /></span>
+                  <input
+                    name="password"
+                    type="password"
+                    className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                    value={form.password}
+                    onChange={updateField}
+                  />
+                </div>
                 {errors.password && <div className="invalid-feedback">{errors.password}</div>}
               </div>
               <div className="mb-3">
                 <label className="form-label">Repite tu contraseña</label>
-                <input
-                  name="repeat_password"
-                  type="password"
-                  className={`form-control ${errors.repeat_password ? 'is-invalid' : ''}`}
-                  value={form.repeat_password}
-                  onChange={updateField}
-                />
+                <div className="input-group dark-input-group">
+                  <span className="input-group-text"><i className="bi bi-lock-fill" /></span>
+                  <input
+                    name="repeat_password"
+                    type="password"
+                    className={`form-control ${errors.repeat_password ? 'is-invalid' : ''}`}
+                    value={form.repeat_password}
+                    onChange={updateField}
+                  />
+                </div>
                 {errors.repeat_password && <div className="invalid-feedback">{errors.repeat_password}</div>}
               </div>
+
+              <h6 className="premium-modal-section-title">Datos personales</h6>
               <div className="mb-3">
                 <label className="form-label">Teléfono</label>
-                <input
-                  name="phone"
-                  type="text"
-                  className="form-control"
-                  value={form.phone}
-                  onChange={updateField}
-                />
+                <div className="input-group dark-input-group">
+                  <span className="input-group-text"><i className="bi bi-telephone-fill" /></span>
+                  <input
+                    name="phone"
+                    type="text"
+                    className="form-control"
+                    value={form.phone}
+                    onChange={updateField}
+                  />
+                </div>
               </div>
               <div className="mb-3">
                 <label className="form-label">Fecha de nacimiento</label>
-                <input
-                  name="birth_date"
-                  type="date"
-                  className="form-control"
-                  value={form.birth_date}
-                  onChange={updateField}
-                />
+                <div className="input-group dark-input-group">
+                  <span className="input-group-text"><i className="bi bi-calendar-date-fill" /></span>
+                  <input
+                    name="birth_date"
+                    type="date"
+                    className="form-control"
+                    value={form.birth_date}
+                    onChange={updateField}
+                  />
+                </div>
               </div>
               <div className="mb-3">
                 <label className="form-label">Dirección</label>
-                <input
-                  name="address"
-                  type="text"
-                  className="form-control"
-                  value={form.address}
-                  onChange={updateField}
-                />
+                <div className="input-group dark-input-group">
+                  <span className="input-group-text"><i className="bi bi-geo-alt-fill" /></span>
+                  <input
+                    name="address"
+                    type="text"
+                    className="form-control"
+                    value={form.address}
+                    onChange={updateField}
+                  />
+                </div>
               </div>
               <div className="mb-3">
                 <label className="form-label">País</label>
-                <input
-                  name="country"
-                  type="text"
-                  className="form-control"
-                  value={form.country}
-                  onChange={updateField}
-                />
+                <div className="input-group dark-input-group">
+                  <span className="input-group-text"><i className="bi bi-flag-fill" /></span>
+                  <input
+                    name="country"
+                    type="text"
+                    className="form-control"
+                    value={form.country}
+                    onChange={updateField}
+                  />
+                </div>
               </div>
               <div className="mb-3">
                 <label className="form-label">Ciudad</label>
-                <input
-                  name="city"
-                  type="text"
-                  className="form-control"
-                  value={form.city}
-                  onChange={updateField}
-                />
+                <div className="input-group dark-input-group">
+                  <span className="input-group-text"><i className="bi bi-building" /></span>
+                  <input
+                    name="city"
+                    type="text"
+                    className="form-control"
+                    value={form.city}
+                    onChange={updateField}
+                  />
+                </div>
               </div>
               <div className="form-check mb-3">
                 <input
@@ -266,7 +327,7 @@ export default function RegisterModal() {
                 <label className="form-check-label">Acepto los términos y condiciones</label>
                 {errors.accepted_terms && <div className="invalid-feedback">{errors.accepted_terms}</div>}
               </div>
-              <button type="submit" className="btn btn-primary w-100">
+              <button type="submit" className="btn premium-submit w-100">
                 Registrarse
               </button>
             </form>
