@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from 'react'
-
-// Backend interactions removed
-
-interface Product {
-  id: number
-  image: string
-  title: string
-  description: string
-  price: number
-}
+import { getProducts, Product } from '../products'
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    // Backend removed; no data loading
-    setProducts([])
+    setLoading(true)
+    getProducts()
+      .then(data => setProducts(data))
+      .finally(() => setLoading(false))
   }, [])
 
   function formatPrice(value: number) {
