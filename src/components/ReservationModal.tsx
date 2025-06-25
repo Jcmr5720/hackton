@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+const API_URL = import.meta.env.VITE_API_URL || ''
+
 interface FormState {
   customer_name: string
   customer_phone: string
@@ -32,7 +34,7 @@ export default function ReservationModal() {
     e.preventDefault()
     setMessage(null)
     try {
-      const res = await fetch('/reservations', {
+      const res = await fetch(`${API_URL}/reservations`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
