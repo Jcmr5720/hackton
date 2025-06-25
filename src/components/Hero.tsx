@@ -17,14 +17,16 @@ export default function Hero() {
         <h1 className="display-1 fw-bold mb-4 mt-6 hero-title animate__animated animate__fadeInDown">
           ¡La mejor hamburguesa de la ciudad!
         </h1>
-        <button
-          className="btn btn-reserva rounded-pill shadow-lg fw-bold mt-4 mb-5 d-inline-flex align-items-center animate__animated animate__rubberBand hvr-pulse-grow"
-          data-bs-toggle="modal"
-          data-bs-target="#reservationModal">
-          <i className="bi bi-calendar-event me-2 fs-3" />
-          Haz tu reserva
-        </button>
-        <ConsultReservation />
+        <div className="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mt-4 mb-5">
+          <button
+            className="btn btn-reserva rounded-pill shadow-lg fw-bold d-inline-flex align-items-center animate__animated animate__rubberBand hvr-pulse-grow"
+            data-bs-toggle="modal"
+            data-bs-target="#reservationModal">
+            <i className="bi bi-calendar-event me-2 fs-3" />
+            Haz tu reserva
+          </button>
+          <ConsultReservation />
+        </div>
       </div>
     </section>
   )
