@@ -333,6 +333,10 @@ export default function RegisterModal() {
                     className={`form-control ${errors.birth_date ? 'is-invalid' : ''}`}
                     dateFormat="yyyy-MM-dd"
                     placeholderText="Selecciona fecha"
+                    showYearDropdown
+                    scrollableYearDropdown
+                    yearDropdownItemNumber={100}
+                    maxDate={new Date()}
                   />
                 </div>
                 {errors.birth_date && <div className="invalid-feedback d-block">{errors.birth_date}</div>}
