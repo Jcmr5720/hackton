@@ -1,6 +1,7 @@
 .hero {
   position: relative;
   animation: fadeIn 1s ease-in-out;
+  padding-top: 0;
 }
 
 .hero::before {
