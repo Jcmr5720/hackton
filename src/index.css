@@ -313,3 +313,8 @@ section {
   box-shadow: 0 1rem 1.5rem rgba(255, 87, 34, 0.6);
   color: #fff;
 }
+
+/* Additional spacing utility to complement Bootstrap */
+.mt-6 {
+  margin-top: 4.5rem !important;
+}

@@ -13,7 +13,7 @@ export default function Hero() {
       }}>
       <div className="container">
 
-        <h1 className="display-1 fw-bold mb-4 mt-5 hero-title animate__animated animate__fadeInDown">
+        <h1 className="display-1 fw-bold mb-4 mt-6 hero-title animate__animated animate__fadeInDown">
           ¡La mejor hamburguesa de la ciudad!
         </h1>
         <button
