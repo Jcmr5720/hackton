@@ -15,8 +15,7 @@ export default function App() {
       <Header />
       <LoginModal />
       <RegisterModal />
-      <ReservationModal />
-      <main className="flex-fill pt-5">
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
