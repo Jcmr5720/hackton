@@ -9,7 +9,8 @@ file is provided as `.env.example`.
 
 Supabase credentials are stored in `server/config.js` for the API server and in
 `src/supabaseClient.tsx` for the React application. Edit either file to update
-`SUPABASE_URL` and `SUPABASE_ANON_KEY`.
+`SUPABASE_URL` and `SUPABASE_ANON_KEY`. The API base URL used by the React app
+is also defined in `src/supabaseClient.tsx` as `API_URL`.
 
 If you want to start from the template, run:
 
