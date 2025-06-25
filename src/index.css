@@ -7,3 +7,12 @@ section {
   padding-top: 60px;
   padding-bottom: 60px;
 }
+
+.nav-link:hover {
+  color: orange !important;
+  text-shadow: 0 0 5px red;
+}
+
+.btn-danger:hover {
+  filter: brightness(120%);
+}
