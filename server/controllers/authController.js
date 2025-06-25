@@ -29,6 +29,29 @@ export async function register(req, res) {
   }
 }
 
+export async function checkAvailability(req, res) {
+  const { username, email } = req.query;
+  if (!username && !email) {
+    return res.status(400).json({ error: 'username or email query parameter required' });
+  }
+  try {
+    const result = await pool.query(
+      'SELECT username, email FROM logger WHERE username = $1 OR email = $2',
+      [username ?? null, email ?? null]
+    );
+    let usernameExists = false;
+    let emailExists = false;
+    for (const row of result.rows) {
+      if (username && row.username === username) usernameExists = true;
+      if (email && row.email === email) emailExists = true;
+    }
+    res.json({ usernameExists, emailExists });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Check failed' });
+  }
+}
+
 export async function login(req, res) {
   const { usernameOrEmail, password } = req.body;
   if (!usernameOrEmail || !password) {
