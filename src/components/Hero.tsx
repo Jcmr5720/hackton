@@ -11,8 +11,8 @@ export default function Hero() {
         backgroundPosition: 'center',
         height: '80vh'
       }}
-    >
       <div className="container">
+
         <h1 className="display-1 fw-bold mb-4 mt-5 hero-title animate__animated animate__fadeInDown">
           ¡La mejor hamburguesa de la ciudad!
         </h1>
@@ -20,7 +20,7 @@ export default function Hero() {
           className="btn btn-reserva rounded-pill shadow-lg fs-4 px-5 py-3 mt-4 mb-5 d-inline-flex align-items-center animate__animated animate__rubberBand hvr-pulse-grow"
           data-bs-toggle="modal"
           data-bs-target="#reservationModal"
-        >
+        
           <i className="bi bi-calendar-event me-2 fs-3" />
           Haz tu reserva
         </button>
