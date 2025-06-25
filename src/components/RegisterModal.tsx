@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-const API_URL = import.meta.env.VITE_API_URL || ''
+import { API_URL } from '../supabaseClient'
 
 interface FormState {
   username: string
