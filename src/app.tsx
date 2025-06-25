@@ -15,7 +15,8 @@ export default function App() {
       <Header />
       <LoginModal />
       <RegisterModal />
-
+      <ReservationModal />
+      <main className="flex-grow-1">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
