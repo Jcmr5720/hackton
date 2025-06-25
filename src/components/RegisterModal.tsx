@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-import { API_URL } from '../supabaseClient'
+// Backend interactions removed
 
 interface FormState {
   username: string
@@ -42,22 +42,9 @@ export default function RegisterModal() {
   const [success, setSuccess] = useState(false)
   const [birthDate, setBirthDate] = useState<Date | null>(null)
 
-  async function checkAvailability(field: 'username' | 'email', value: string) {
-    if (!value) return
-    try {
-      const res = await fetch(`${API_URL}/auth/check?${field}=${encodeURIComponent(value)}`)
-      const data = await res.json()
-      if (data[`${field}Exists`]) {
-        setErrors(err => ({ ...err, [field]: `${field === 'username' ? 'Nombre de usuario' : 'Correo'} no disponible` }))
-      } else {
-        setErrors(err => {
-          const { [field]: _removed, ...rest } = err
-          return rest
-        })
-      }
-    } catch {
-      /* ignore */
-    }
+  function checkAvailability(_field: 'username' | 'email', _value: string) {
+    // No backend, validation skipped
+    return
   }
 
   function updateField(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -99,7 +86,7 @@ export default function RegisterModal() {
     }
   }, [form.password, form.repeat_password])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log('Intentando registrar:', {
       username: form.username,
@@ -129,69 +116,24 @@ export default function RegisterModal() {
     }
     if (Object.keys(newErrors).length > 0) return
 
-    try {
-      console.log('Enviando registro al backend')
-      const res = await fetch(`${API_URL}/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: form.username,
-          user: form.user,
-          role: form.role,
-          email: form.email,
-          password: form.password,
-          accepted_terms: form.accepted_terms,
-          phone: form.phone || undefined,
-          birth_date: form.birth_date || undefined,
-          address: form.address || undefined,
-          country: form.country || undefined,
-          city: form.city || undefined
-        })
-      })
-      const data = await res.json()
-      if (res.ok) {
-        console.log('Registro exitoso', {
-          username: form.username,
-          user: form.user,
-          email: form.email,
-          country: form.country,
-          city: form.city,
-          phone: form.phone,
-          birth_date: form.birth_date,
-          address: form.address
-        })
-        setSuccess(true)
-        setMessage('Usuario registrado correctamente')
-        setForm({
-          username: '',
-          user: '',
-          role: 'user',
-          email: '',
-          repeat_email: '',
-          password: '',
-          repeat_password: '',
-          phone: '',
-          birth_date: '',
-          address: '',
-          country: '',
-          city: '',
-          accepted_terms: false
-        })
-        setBirthDate(null)
-      } else {
-        setSuccess(false)
-        setMessage(data.error || 'Error al registrar')
-        console.error('Error en registro:', data.error || 'Error al registrar')
-      }
-    } catch (err) {
-      setSuccess(false)
-      setMessage('Error al registrar')
-      if (err instanceof Error) {
-        console.error('Error en registro:', err.message)
-      } else {
-        console.error('Error en registro:', err)
-      }
-    }
+    setSuccess(true)
+    setMessage('Registro enviado (sin conexión a base de datos)')
+    setForm({
+      username: '',
+      user: '',
+      role: 'user',
+      email: '',
+      repeat_email: '',
+      password: '',
+      repeat_password: '',
+      phone: '',
+      birth_date: '',
+      address: '',
+      country: '',
+      city: '',
+      accepted_terms: false
+    })
+    setBirthDate(null)
   }
 
   return (

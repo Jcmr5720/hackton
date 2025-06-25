@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { API_URL } from '../supabaseClient'
+// Backend interactions removed
 
 interface Product {
   id: number
@@ -12,23 +12,11 @@ interface Product {
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    async function load() {
-      try {
-        const res = await fetch(`${API_URL}/products`)
-        const data = await res.json()
-        if (res.ok) {
-          setProducts(data)
-        }
-      } catch {
-        /* ignore errors */
-      } finally {
-        setLoading(false)
-      }
-    }
-    load()
+    // Backend removed; no data loading
+    setProducts([])
   }, [])
 
   function formatPrice(value: number) {
