@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { getProducts, Product } from '../products'
+import { getProducts } from '../products'
+import type { Product } from '../products'
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([])
