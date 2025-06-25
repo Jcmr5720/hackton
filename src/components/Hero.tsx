@@ -1,4 +1,5 @@
 import React from 'react'
+import ConsultReservation from './ConsultReservation'
 
 export default function Hero() {
   return (
@@ -23,6 +24,7 @@ export default function Hero() {
           <i className="bi bi-calendar-event me-2 fs-3" />
           Haz tu reserva
         </button>
+        <ConsultReservation />
       </div>
     </section>
   )
