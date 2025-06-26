@@ -45,7 +45,19 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer-bottom text-center mt-5 pt-3">
-          &copy; {new Date().getFullYear()} Todos los derechos reservados.
+          <p className="mb-2">&copy; {new Date().getFullYear()} Todos los derechos reservados.</p>
+          <p className="footer-credit fw-semibold">
+            Página creada por Juan Camilo Muñoz
+            <a
+              href="https://portafoliojcmr.netlify.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-warning btn-sm ms-2"
+            >
+              <i className="bi bi-briefcase-fill me-1"></i>
+              Portafolio
+            </a>
+          </p>
         </div>
       </div>
     </footer>
