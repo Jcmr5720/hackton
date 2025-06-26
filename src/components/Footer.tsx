@@ -13,9 +13,9 @@ export default function Footer() {
           <div className="col-12 col-md-3">
             <h6 className="fw-bold mb-3">Contacto</h6>
             <ul className="list-unstyled">
-              <li className="mb-2"><i className="bi bi-telephone-fill me-2 text-brand"></i>+123 456 789</li>
-              <li className="mb-2"><i className="bi bi-geo-alt-fill me-2 text-brand"></i>Calle Principal 123, Ciudad</li>
-              <li><i className="bi bi-envelope-fill me-2 text-brand"></i>info@alrockburger.com</li>
+              <li className="mb-2"><i className="bi bi-telephone-fill me-2 text-brand"></i>601 589 2485 | 318 88 88 936</li>
+              <li className="mb-2"><i className="bi bi-geo-alt-fill me-2 text-brand"></i>Carrera 19 No. 148-65</li>
+              <li><i className="bi bi-envelope-fill me-2 text-brand"></i>alrockburger.com</li>
             </ul>
           </div>
           <div className="col-12 col-md-2">
@@ -39,7 +39,14 @@ export default function Footer() {
             <h6 className="fw-bold mb-3">Síguenos</h6>
             <div className="d-flex gap-2">
               <a href="#" className="social-icon"><i className="bi bi-facebook"></i></a>
-              <a href="#" className="social-icon"><i className="bi bi-instagram"></i></a>
+              <a
+                href="https://www.instagram.com/alrock_burger/?hl=es"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-icon"
+              >
+                <i className="bi bi-instagram"></i>
+              </a>
               <a href="#" className="social-icon"><i className="bi bi-whatsapp"></i></a>
             </div>
           </div>
@@ -58,6 +65,11 @@ export default function Footer() {
               Portafolio
             </a>
           </p>
+          <div className="text-center mt-3">
+            <span className="badge text-bg-light text-dark border border-warning px-3 py-2">
+              Página creada para el concurso Talento Tech
+            </span>
+          </div>
         </div>
       </div>
     </footer>
