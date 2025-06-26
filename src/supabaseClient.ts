@@ -5,6 +5,16 @@ const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
+export interface LoginRecord {
+  ip: string
+  timestamp: string
+  /**
+   * Navegador o dispositivo utilizado durante el inicio de sesión.
+   * Puede no existir en registros antiguos.
+   */
+  user_agent?: string
+}
+
 export interface Logger {
   id: string
   username: string
@@ -19,13 +29,22 @@ export interface Logger {
   registration_ip: string
   last_ip: string | null
   last_login: string | null
+  /** Historial de inicios de sesión */
+  login_history: LoginRecord[] | null
   country: string
   city: string
   registration_date: string
 }
 
-export async function createLogger(data: Omit<Logger, 'id' | 'registration_date' | 'last_ip' | 'last_login'> & Partial<Pick<Logger, 'id' | 'registration_date' | 'last_ip' | 'last_login' | 'role'>>): Promise<Logger> {
-  const record = { ...data, role: data.role ?? 'user' }
+export async function createLogger(
+  data: Omit<Logger, 'id' | 'registration_date' | 'last_ip' | 'last_login' | 'login_history'> &
+    Partial<Pick<Logger, 'id' | 'registration_date' | 'last_ip' | 'last_login' | 'login_history' | 'role'>>
+): Promise<Logger> {
+  const record = {
+    ...data,
+    role: data.role ?? 'user',
+    login_history: data.login_history ?? []
+  }
   const { data: inserted, error } = await supabase
     .from('logger')
     .insert(record)
