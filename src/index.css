@@ -78,6 +78,11 @@ section {
   backdrop-filter: blur(6px);
 }
 
+/* Ensure custom modals appear above the backdrop */
+.premium-modal {
+  z-index: 1060;
+}
+
 /* Premium modal container */
 .premium-modal .modal-dialog {
   min-height: calc(100vh - 1rem);
