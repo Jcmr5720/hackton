@@ -8,6 +8,7 @@ import Footer from './components/Footer'
 import WhatsAppButton from './components/WhatsAppButton'
 import Home from './pages/Home'
 import About from './pages/About'
+import PublicProfile from './pages/PublicProfile'
 import './app.css'
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/profile" element={<PublicProfile />} />
         </Routes>
       </main>
       <Footer />
