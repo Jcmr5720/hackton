@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function BuyModal() {
   return (
     <div className="modal fade premium-modal" id="buyPromptModal" tabIndex={-1} aria-hidden="true">
