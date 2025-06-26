@@ -49,7 +49,13 @@ export default function Products() {
                       <span className="badge bg-warning text-dark fs-6">
                         {formatPrice(prod.price)}
                       </span>
-                      <button className="btn btn-primary">Reservar</button>
+                      <button
+                        className="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#buyPromptModal"
+                      >
+                        Comprar
+                      </button>
                     </div>
                   </div>
                 </div>

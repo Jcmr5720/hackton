@@ -3,6 +3,7 @@ import Header from './components/Header'
 import LoginModal from './components/LoginModal'
 import RegisterModal from './components/RegisterModal'
 import ReservationModal from './components/ReservationModal'
+import BuyModal from './components/BuyModal'
 import Footer from './components/Footer'
 import WhatsAppButton from './components/WhatsAppButton'
 import Home from './pages/Home'
@@ -16,6 +17,7 @@ export default function App() {
       <LoginModal />
       <RegisterModal />
       <ReservationModal />
+      <BuyModal />
       <main className="flex-grow-1">
         <Routes>
           <Route path="/" element={<Home />} />
