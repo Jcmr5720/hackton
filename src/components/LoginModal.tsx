@@ -10,7 +10,7 @@ export default function LoginModal() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     try {
-      await loginUser(email, password, window.location.hostname, navigator.userAgent)
+      await loginUser(email, password, window.location.hostname)
       setSuccess(true)
       setMessage('Inicio de sesión exitoso')
       setEmail('')

@@ -8,16 +8,6 @@ async function sha256(message: string): Promise<string> {
     .join('')
 }
 
-export type LoginRecord = {
-  ip: string
-  timestamp: string
-  /**
-   * Navegador o dispositivo utilizado durante el inicio de sesión.
-   * Puede no existir en registros antiguos.
-   */
-  user_agent?: string
-}
-
 export type Logger = {
   id: number
   username: string | null
@@ -32,7 +22,6 @@ export type Logger = {
   registration_ip: string | null
   last_ip: string | null
   last_login: string | null
-  login_history: LoginRecord[] | null
   country: string | null
   city: string | null
   registration_date: string | null
@@ -70,8 +59,7 @@ export async function registerUser(data: RegistrationData): Promise<AuthUser> {
       accepted_terms: data.accepted_terms,
       registration_ip: data.registration_ip,
       country: data.country,
-      city: data.city,
-      login_history: []
+      city: data.city
     })
     .select()
     .single()
@@ -80,31 +68,14 @@ export async function registerUser(data: RegistrationData): Promise<AuthUser> {
   return rest
 }
 
-export async function loginUser(
-  email: string,
-  password: string,
-  ip: string,
-  userAgent: string
-): Promise<AuthUser> {
+export async function loginUser(email: string, password: string, ip: string): Promise<AuthUser> {
   const passwordHash = await sha256(password)
-  const { data: user, error } = await supabase
-    .from('logger')
-    .select('*')
-    .eq('email', email)
-    .single()
+  const { data: user, error } = await supabase.from('logger').select('*').eq('email', email).single()
   if (error) throw error
   if (!user || user.password !== passwordHash) throw new Error('Invalid credentials')
-
-  const history = Array.isArray(user.login_history) ? user.login_history : []
-  history.push({ ip, timestamp: new Date().toISOString(), user_agent: userAgent })
-
   const { data: updated, error: updateError } = await supabase
     .from('logger')
-    .update({
-      last_ip: ip,
-      last_login: new Date().toISOString(),
-      login_history: history
-    })
+    .update({ last_ip: ip, last_login: new Date().toISOString() })
     .eq('id', user.id)
     .select()
     .single()
